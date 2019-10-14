@@ -29,9 +29,9 @@ def webhook():
     return jsonify(data)
 
 def Webhook(data):
-    cekUserID = data.get("originalDetectIntentRequest").get("payload").get("data").get("chat").get("from").get("id")
-    id_pesan = data.get("originalDetectIntentRequest").get("payload").get("chat").get("message_id")
-    pesan = data.get("originalDetectIntentRequest").get("payload").get("chat").get("text")
+    cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
+    id_pesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
+    pesan = data.get("originalDetectIntentRequest").get("payload").get("text")
     id_inbox = ""
 
     try:
