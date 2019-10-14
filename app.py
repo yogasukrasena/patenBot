@@ -30,16 +30,16 @@ def webhook():
 
 def Webhook(data):
     cekUserID = data.get("originalDetectIntentRequest").get("payload").get("data").get("from").get("id")
-    id_pesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
-    pesan = data.get("originalDetectIntentRequest").get("payload").get("text")
+    id_pesan = data.get("originalDetectIntentRequest").get("payload").get("chat").get("message_id")
+    pesan = data.get("originalDetectIntentRequest").get("payload").get("chat").get("text")
     id_inbox = ""
 
     try:
         result = None
-        with connection.cursor() as cursor:
-            sql = "SELECT * FROM tb_ WHERE tb_profile.userID = %s"
-            cursor.execute(sql, (cekUserID))
-            result = cursor.fetchone()
+        # with connection.cursor() as cursor:
+        #     sql = "SELECT * FROM tb_ WHERE tb_profile.userID = %s"
+        #     cursor.execute(sql, (cekUserID))
+        #     result = cursor.fetchone()
 
         response = {
             'fulfillmentMessages': [
