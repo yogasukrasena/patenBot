@@ -26,8 +26,7 @@ def webhook():
     intent_name = data.get("queryResult").get("intent").get("displayName")
     print(data)
 
-    if intent_name == 'webhook-intent':
-        return Webhook(data)
+
     try:
         result = ""
         with connection.cursor() as cursor:
@@ -39,6 +38,9 @@ def webhook():
         connection.commit()
     finally:
         connection.close()
+
+    if intent_name == 'webhook-intent':
+        return Webhook(data)
 
 def Webhook(data):
 
