@@ -26,9 +26,6 @@ def webhook():
     pesan = data.get("originalDetectIntentRequest").get("payload").get("text")
     print(data)
 
-    if intent_name == 'webhook-intent':
-        return Webhook(data)
-
     try:
         result = ""
         with connection.cursor() as cursor:
@@ -46,7 +43,8 @@ def webhook():
     finally:
         connection.close()
 
-
+    if intent_name == 'webhook-intent':
+        return Webhook(data)
 
 def Webhook(data):
 
