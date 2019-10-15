@@ -23,14 +23,14 @@ def webhook():
     intent_name = data.get("queryResult").get("intent").get("displayName")
     cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
     idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
-    pesan = data.get("originalDetectIntentRequest").get("payload").get("text")
+    isiPesan = data.get("originalDetectIntentRequest").get("payload").get("text")
     print(data)
 
     try:
         result = ""
         with connection.cursor() as cursor:
-            sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%s, %s, %s, %s)"
-            cursor.execute(sql, (idPesan, pesan, cekUserID, date.today().strftime("%Y-%m-%d")))
+            sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%d, %s, %s, %s)"
+            cursor.execute(sql, (idPesan, isiPesan, cekUserID, date.today().strftime("%Y-%m-%d")))
             # idterakhir = cursor.lastrowid
             # sql = "INSERT INTO tb_outbox (id_inbox, pesan, date) VALUES (%s, %s, %s)"
             # cursor.execute(sql, (idterakhir, order(data), date.today().strftime("%Y-%m-%d")))
