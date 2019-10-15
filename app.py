@@ -32,14 +32,16 @@ def Awal(data):
     cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
     print(cekUserID)
     idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
-    pesan = data.get("originalDetectIntentRequest").get("payload").get("text")
+    print(idPesan)
+    isiPesan = data.get("originalDetectIntentRequest").get("payload").get("text")
+    print(isiPesan)
     id_inbox = ""
 
     try:
         result = ""
         with connection.cursor() as cursor:
             sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%s, %s, %s, %s)"
-            cursor.execute(sql, (idPesan, pesan, cekUserID, date.today().strftime("%Y-%m-%d")))
+            cursor.execute(sql, (idPesan, isiPesan, cekUserID, date.today().strftime("%Y-%m-%d")))
             # id_inbox = cursor.lastrowid
         connection.commit()
 
