@@ -8,6 +8,13 @@ from datetime import date
 # initialize the flask app
 app = Flask(__name__)
 PORT = int(os.environ.get("PORT", 5000))
+connection = pymysql.connect(host='db4free.net',
+                             user='yogasukrasena',
+                             password='Ikadek07',
+                             db='db_paten_yoga',
+                             charset='utf8mb4',
+                             cursorclass=pymysql.cursors.DictCursor)
+
 
 # create a route for webhook
 @app.route('/', methods=['POST'])
@@ -19,19 +26,14 @@ def webhook():
     if intent_name == 'webhook-intent':
         return Awal(data)
 
+    return jsonify(request.get_json())
+
 def Awal(data):
     cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
+    print(cekUserID)
     idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
     pesan = data.get("originalDetectIntentRequest").get("payload").get("text")
-    tanggal = data.get("originalDetectIntentRequest").get("payload").get("date")
     id_inbox = ""
-
-    connection = pymysql.connect(host='db4free.net',
-                                 user='yogasukrasena',
-                                 password='Ikadek07',
-                                 db='db_paten_yoga',
-                                 charset='utf8mb4',
-                                 cursorclass=pymysql.cursors.DictCursor)
 
     try:
         result = ""
