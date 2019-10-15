@@ -48,7 +48,7 @@ def Awal(data):
                 {
                     "card": {
                         "title": "Menu",
-                        "subtitle": "Halo {}, Silahkan pilih menu di bawah".format(result['nama']),
+                        "subtitle": "Halo {}, Silahkan pilih menu di bawah",
                         "buttons": [
                             {
                                 "text": "Cek Profil",
