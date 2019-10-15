@@ -20,12 +20,14 @@ connection = pymysql.connect(host='db4free.net',
 @app.route('/', methods=['POST'])
 def webhook():
     data = request.get_json()
+    intent_name = data.get("queryResult").get("intent").get("displayName")
     cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
     idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
     pesan = data.get("originalDetectIntentRequest").get("payload").get("text")
-    intent_name = data.get("queryResult").get("intent").get("displayName")
     print(data)
 
+    if intent_name == 'webhook-intent':
+        return Webhook(data)
 
     try:
         result = ""
@@ -36,11 +38,15 @@ def webhook():
             # sql = "INSERT INTO tb_outbox (id_inbox, pesan, date) VALUES (%s, %s, %s)"
             # cursor.execute(sql, (idterakhir, order(data), date.today().strftime("%Y-%m-%d")))
         connection.commit()
+    except Exception:
+        response = {
+            'fulfillmentText': "Akun anda belum terkait dengan Sistem Simak, mohon input nim Anda"
+        }
+        return jsonify(response)
     finally:
         connection.close()
 
-    if intent_name == 'webhook-intent':
-        return Webhook(data)
+
 
 def Webhook(data):
 
