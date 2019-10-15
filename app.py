@@ -40,7 +40,7 @@ def Awal(data):
         with connection.cursor() as cursor:
             sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%s, %s, %s, %s)"
             cursor.execute(sql, (idPesan, pesan, cekUserID, date.today().strftime("%Y-%m-%d")))
-            id_inbox = cursor.lastrowid
+            # id_inbox = cursor.lastrowid
         connection.commit()
 
         response = {
