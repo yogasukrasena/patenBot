@@ -19,8 +19,6 @@ def webhook():
     if intent_name == 'webhook-intent':
         return Awal(data)
 
-    return jsonify(data)
-
 def Awal(data):
     cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
     idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
