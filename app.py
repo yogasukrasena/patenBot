@@ -34,41 +34,41 @@ def Awal(data):
     isiPesan = data.get("originalDetectIntentRequest").get("payload").get("text")
     id_inbox = ""
 
-    # try:
-    result = ""
-    with connection.cursor() as cursor:
-        sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%s, %s, %s, %s)"
-        cursor.execute(sql, (idPesan, isiPesan, cekUserID, date.today().strftime("%Y-%m-%d")))
-        # id_inbox = cursor.lastrowid
-    connection.commit()
+    try:
+        result = ""
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%s, %s, %s, %s)"
+            cursor.execute(sql, (idPesan, isiPesan, cekUserID, date.today().strftime("%Y-%m-%d")))
+            # id_inbox = cursor.lastrowid
+        connection.commit()
 
-    response = {
-        'fulfillmentMessages': [
-            {
-                "card": {
-                    "title": "Menu",
-                    "subtitle": "Halo {}, Silahkan pilih menu di bawah",
-                    "buttons": [
-                        {
-                            "text": "Cek Profil",
-                            "postback": "cek profil"
-                        },
-                        {
-                            "text": "Info Akademik",
-                            "postback": "info akademik"
-                        }
-                    ]
+        response = {
+            'fulfillmentMessages': [
+                {
+                    "card": {
+                        "title": "Menu",
+                        "subtitle": "Halo {}, Silahkan pilih menu di bawah",
+                        "buttons": [
+                            {
+                                "text": "Cek Profil",
+                                "postback": "cek profil"
+                            },
+                            {
+                                "text": "Info Akademik",
+                                "postback": "info akademik"
+                            }
+                        ]
+                    }
                 }
-            }
-        ]
-    }
-    return response
+            ]
+        }
+        return response
 
-    # except Exception:
-    #     response = {
-    #         'fulfillmentText': "Data anda gagal di Daftarkan"
-    #     }
-    #     return jsonify(response)
+    except Exception:
+        response = {
+            'fulfillmentText': "Data anda gagal di Daftarkan"
+        }
+        return jsonify(response)
 
 
 # run the app
