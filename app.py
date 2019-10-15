@@ -20,37 +20,34 @@ connection = pymysql.connect(host='db4free.net',
 @app.route('/', methods=['POST'])
 def webhook():
     data = request.get_json()
+    cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
+    idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
+    pesan = data.get("originalDetectIntentRequest").get("payload").get("text")
     intent_name = data.get("queryResult").get("intent").get("displayName")
     print(data)
 
     if intent_name == 'webhook-intent':
         return Webhook(data)
-
-    return jsonify(data)
-
-def Webhook(data):
-    cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
-    idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
-    pesan = data.get("originalDetectIntentRequest").get("payload").get("text")
-    tanggal = data.get("originalDetectIntentRequest").get("payload").get("date")
-    id_inbox = ""
-
     try:
-        result = None
+        result = ""
         with connection.cursor() as cursor:
             sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%s, %s, %s, %s)"
             cursor.execute(sql, (idPesan, pesan, cekUserID, date.today().strftime("%Y-%m-%d")))
             # idterakhir = cursor.lastrowid
             # sql = "INSERT INTO tb_outbox (id_inbox, pesan, date) VALUES (%s, %s, %s)"
             # cursor.execute(sql, (idterakhir, order(data), date.today().strftime("%Y-%m-%d")))
-            connection.commit()
+        connection.commit()
+    finally:
+        connection.close()
+
+def Webhook(data):
 
         response = {
             'fulfillmentMessages': [
                 {
                     "card": {
                         "title": "Menu",
-                        "subtitle": "Halo {}, Silahkan pilih menu di bawah".format(result['nama']),
+                        "subtitle": "Halo {}, Silahkan pilih menu di bawah",
                         "buttons": [
                             {
                                 "text": "Cek Profil",
@@ -65,13 +62,13 @@ def Webhook(data):
                 }
             ]
         }
-        return jsonify(response)
+        return response
 
-    except Exception:
-        response = {
-            'fulfillmentText': "Akun anda belum terkait dengan Sistem Simak, mohon input nim Anda"
-        }
-        return jsonify(response)
+    # except Exception:
+    #     response = {
+    #         'fulfillmentText': "Akun anda belum terkait dengan Sistem Simak, mohon input nim Anda"
+    #     }
+    #     return jsonify(response)
 
 
 # run the app
