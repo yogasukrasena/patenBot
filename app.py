@@ -30,7 +30,7 @@ def webhook():
 
 def Webhook(data):
     cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
-    id_pesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
+    idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
     pesan = data.get("originalDetectIntentRequest").get("payload").get("text")
     tanggal = data.get("originalDetectIntentRequest").get("payload").get("date")
     id_inbox = ""
@@ -38,9 +38,12 @@ def Webhook(data):
     try:
         result = None
         with connection.cursor() as cursor:
-        sql = "SELECT * FROM tb_ WHERE tb_profile.userID = %s"
-        cursor.execute(sql, (cekUserID))
-        result = cursor.fetchone()
+            sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%s, %s, %s, %s)"
+            cursor.execute(sql, (idPesan, pesan, cekUserID, date.today().strftime("%Y-%m-%d")))
+            # idterakhir = cursor.lastrowid
+            # sql = "INSERT INTO tb_outbox (id_inbox, pesan, date) VALUES (%s, %s, %s)"
+            # cursor.execute(sql, (idterakhir, order(data), date.today().strftime("%Y-%m-%d")))
+            connection.commit()
 
         response = {
             'fulfillmentMessages': [
@@ -62,8 +65,6 @@ def Webhook(data):
                 }
             ]
         }
-
-
         return jsonify(response)
 
     except Exception:
