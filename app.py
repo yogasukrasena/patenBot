@@ -41,9 +41,7 @@ def Awal(data):
             sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%s, %s, %s, %s)"
             cursor.execute(sql, (idPesan, pesan, cekUserID, date.today().strftime("%Y-%m-%d")))
             id_inbox = cursor.lastrowid
-            # sql = "INSERT INTO tb_outbox (id_inbox, pesan, date) VALUES (%s, %s, %s)"
-            # cursor.execute(sql, (idterakhir, order(data), date.today().strftime("%Y-%m-%d")))
-            connection.commit()
+        connection.commit()
 
         response = {
             'fulfillmentMessages': [
@@ -69,7 +67,7 @@ def Awal(data):
 
     except Exception:
         response = {
-            'fulfillmentText': "Akun anda belum terkait dengan Sistem Simak, mohon input nim Anda"
+            'fulfillmentText': "Data anda gagal di Daftarkan"
         }
         return jsonify(response)
 
