@@ -29,6 +29,9 @@ def webhook():
     elif intent_name == 'menu':
         return menu(data)
 
+    elif intent_name == 'menu.pengajuan.dagang':
+        return perdagangan(data)
+
     return jsonify(request.get_json())
 
 def Awal(data):
@@ -96,12 +99,12 @@ def menu(data):
                         "subtitle": "Halo {}, Silahkan pilih menu di bawah".format(isiPesan),
                         "buttons": [
                             {
-                                "text": "Pengajuan izin Usaha Perdagangan",
+                                "text": "Surat izin Usaha Perdagangan",
                                 "postback": "usaha perdagangan"
                             },
                             {
                                 "text": "Pengajuan Izin Reklame",
-                                "postback": "ijin reklame"
+                                "postback": "izin reklame"
                             }
                         ]
                     }
@@ -115,6 +118,49 @@ def menu(data):
             'fulfillmentText': "Data anda gagal di Daftarkan"
         }
         return jsonify(response)
+
+def perdagangan(data):
+    # cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
+    # idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
+    # isiPesan = data.get("originalDetectIntentRequest").get("payload").get("text")
+    # id_inbox = ""
+    #
+    # try:
+    #     result = ""
+    #     with connection.cursor() as cursor:
+    #         sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%s, %s, %s, %s)"
+    #         cursor.execute(sql, (idPesan, isiPesan, cekUserID, date.today().strftime("%Y-%m-%d")))
+    #         # id_inbox = cursor.lastrowid
+    #         result = cursor.fetchone()
+    #     connection.commit()
+
+        response = {
+            'fulfillmentMessages': [
+                {
+                    "card": {
+                        "title": "Menu",
+                        "subtitle": "Silahkan pilih menu di bawah",
+                        "buttons": [
+                            {
+                                "text": "Form Perdagangan",
+                                "postback": "form perdagangan"
+                            },
+                            {
+                                "text": "Syarat Pengajuan Perdagangan",
+                                "postback": "Syarat"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+        return response
+
+    # except Exception:
+    #     response = {
+    #         'fulfillmentText': "Data anda gagal di Daftarkan"
+    #     }
+    #     return jsonify(response)
 
 
 # run the app
