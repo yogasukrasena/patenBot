@@ -29,11 +29,8 @@ def webhook():
     elif intent_name == 'menu':
         return menu(data)
 
-    elif intent_name == 'menu.pengajuan.dagang':
+    elif intent_name == 'surat_pengantar_dagang_detail - notlpnusaha':
         return perdagangan()
-
-    elif intent_name == 'surat_pengantar_dagang - nama - no.tlpn':
-        return dataUserPengaju(data)
 
 
     return jsonify(request.get_json())
@@ -148,6 +145,7 @@ def perdagangan():
 
 def dataUserPengaju(data):
     cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
+    nik = data.get("outputContexts").get("name").get("parameters").get("")
     idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
     isiPesan = data.get("originalDetectIntentRequest").get("payload").get("text")
     id_inbox = ""
