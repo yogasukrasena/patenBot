@@ -38,6 +38,9 @@ def webhook():
     elif intent_name == 'pengajuan_reklame':
         return reklame()
 
+    elif intent_name == 'pengajuan_reklame_form':
+        return formReklame(data)
+
     return jsonify(request.get_json())
 
 def Awal(data):
@@ -159,7 +162,7 @@ def reklame():
                     "buttons": [
                         {
                             "text": "Form Pendaftaran",
-                            "postback": "form perdagangan"
+                            "postback": "form reklame"
                         },
                         {
                             "text": "Syarat Pemasangan Reklame",
@@ -214,6 +217,49 @@ def dataUserPengaju(data):
             'fulfillmentText': "Data anda gagal di Daftarkan"
         }
         return jsonify(response)
+
+def formReklame(data):
+    parameter_index = 0
+    outputContexts = data['queryResult']['outputContexts']
+
+    for index, parameter in enumerate(outputContexts):
+        if parameter['name'] == "projects/otonlogybot-jsiadw/agent/sessions/" \
+                                "53cffdfa-98d0-3832-8930-b0dd520ef777/contexts/surat_pengantar_dagang-nama-followup":
+            parameter_index = index
+
+    # cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
+    # namauser = outputContexts[parameter_index]['parameters']['namauser']
+    # nikuser = outputContexts[parameter_index]['parameters']['nik']
+    # alamat = outputContexts[parameter_index]['parameters']['alamat']
+    # notlpn = outputContexts[parameter_index]['parameters']['notlpn']
+    # namausaha = outputContexts[parameter_index]['parameters']['namausaha']
+    # alamatusaha = outputContexts[parameter_index]['parameters']['alamatusaha']
+    # jenisusaha = outputContexts[parameter_index]['parameters']['jenisusaha']
+    # notlpnusaha = outputContexts[parameter_index]['parameters']['notlpnusaha']
+    #
+    # try:
+    #     result = ""
+    #     with connection.cursor() as cursor:
+    #         sql = "INSERT INTO tb_user_pengaju (id_user, nik, nama_user, alamat, no_tlp, tanggal) VALUES (%s, %s, %s, %s, %s, %s)"
+    #         cursor.execute(sql, (cekUserID, nikuser, namauser, alamat, notlpn, date.today().strftime("%Y-%m-%d")))
+    #         id_inbox = cursor.lastrowid
+    #         sql2 = "INSERT INTO tb_detail_user_pengaju (id_user_pengaju, nama_usaha, alamat_usaha, jenis_usaha, no_tlpn_usaha) VALUES (%s, %s, %s, %s, %s)"
+    #         cursor.execute(sql2, (id_inbox, namausaha, alamatusaha, jenisusaha, notlpnusaha,))
+    #         result = cursor.fetchone()
+    #     connection.commit()
+
+        response = {
+            'fulfillmentText': "Selamat, data anda berhasil di masukan"
+        }
+        return jsonify(response)
+
+    # except Exception as error:
+    #     print(error)
+    #
+    #     response = {
+    #         'fulfillmentText': "Data anda gagal di Daftarkan"
+    #     }
+    # return jsonify(response)
 
 
 
