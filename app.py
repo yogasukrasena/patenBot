@@ -83,8 +83,8 @@ def menu(data):
         with connection.cursor() as cursor:
             sql = "INSERT INTO tb_outbox (id_inbox, response) VALUES (%s, %s)"
             cursor.execute(sql, (id_inbox, response))
-            sql2 = "UPDATE tb_inbox SET tb_inbox.status = '1' WHERE tb_inbox.id_inbox = %s"
-            cursor.execute(sql2, (id_inbox))
+            sql = "UPDATE tb_inbox SET tb_inbox.status = '1' WHERE tb_inbox.id_inbox = %s"
+            cursor.execute(sql, (id_inbox))
             result = cursor.fetchone()
         connection.commit()
 
