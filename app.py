@@ -93,7 +93,7 @@ def menu(data):
                 {
                     "card": {
                         "title": "Menu",
-                        "subtitle": "Halo {}, Silahkan pilih menu di bawah".format(result['idPesan']),
+                        "subtitle": "Halo {}, Silahkan pilih menu di bawah".format(isiPesan),
                         "buttons": [
                             {
                                 "text": "Pengajuan izin Usaha Perdagangan",
