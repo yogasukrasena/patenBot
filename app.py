@@ -33,7 +33,7 @@ def webhook():
         return perdagangan()
 
     elif intent_name == 'surat_pengantar_dagang_detail - notlpnusaha':
-        return dataUserPengaju()
+        return dataUserPengaju(data)
 
 
     return jsonify(request.get_json())
@@ -146,7 +146,26 @@ def perdagangan():
     }
     return response
 
-def dataUserPengaju():
+def dataUserPengaju(data):
+    parameter_index = 0
+    outputContexts = data['queryResult']['outputContexts']
+
+    for index, parameter in enumerate(outputContexts):
+        if parameter['name'] == "projects/otonlogybot-jsiadw/agent/sessions/" \
+                                "53cffdfa-98d0-3832-8930-b0dd520ef777/contexts/surat_pengantar_dagang-nama-followup":
+            parameter_index = index
+
+    namauser = outputContexts[parameter_index]['parameters']['namauser']
+    nik = outputContexts[parameter_index]['parameters']['nik']
+    alamat = outputContexts[parameter_index]['parameters']['alamat']
+    notlpn = outputContexts[parameter_index]['parameters']['notlpn']
+    namausaha = outputContexts[parameter_index]['parameters']['namausaha']
+    alamatusaha = outputContexts[parameter_index]['parameters']['alamatusaha']
+    jenisusaha = outputContexts[parameter_index]['parameters']['jenisusaha']
+    notlpnusaha = outputContexts[parameter_index]['parameters']['notlpnusaha']
+
+    print("{} {} {} {} {} {} {} {}".format(namauser, nik, alamat, notlpn, namausaha, alamatusaha, jenisusaha, notlpnusaha))
+
 
     response = {
         'fulfillmentText': "Selamat, data anda berhasil di masukan"
