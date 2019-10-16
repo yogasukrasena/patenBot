@@ -38,7 +38,7 @@ def webhook():
     elif intent_name == 'pengajuan_reklame':
         return reklame()
 
-    elif intent_name == 'pengajuan_reklame_form':
+    elif intent_name == 'pengajuan_reklame_form - tglacara':
         return formReklame(data)
 
     return jsonify(request.get_json())
@@ -248,7 +248,6 @@ def formReklame(data):
 
     except Exception as error:
         print(error)
-
         response = {
             'fulfillmentText': "Data anda gagal di Daftarkan"
         }
