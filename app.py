@@ -56,7 +56,7 @@ def menu(data):
         with connection.cursor() as cursor:
             sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%s, %s, %s, %s)"
             cursor.execute(sql, (idPesan, isiPesan, cekUserID, date.today().strftime("%Y-%m-%d")))
-            # id_inbox = cursor.lastrowid
+            id_inbox = cursor.lastrowid
             result = cursor.fetchone()
         connection.commit()
 
@@ -80,7 +80,16 @@ def menu(data):
                 }
             ]
         }
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO tb_outbox (id_inbox, response) VALUES (%s, %s)"
+            cursor.execute(sql, (id_inbox, response))
+            sql2 = "UPDATE tb_inbox SET tb_inbox.status = '1' WHERE tb_inbox.id_inbox = %s"
+            cursor.execute(sql2, (id_inbox))
+            result = cursor.fetchone()
+        connection.commit()
+
         return response
+
 
     except Exception:
         response = {
@@ -221,6 +230,8 @@ def formReklame(data):
         pdf = FPDF()
         pdf.add_page()
         pdf.set_font("Arial", size=12)
+        pdf.cell(200, 10, txt="Pengajuan Surat Izin Pemasangan Baliho", ln=1, align="C")
+        pdf.cell(200, 10, txt="Kecamatan Ubud, Kabupaten Gianyar, Provinsi Bali", ln=1, align="C")
         pdf.cell(200, 10, txt="Nomor: 156/C/PANPEL-{}/I/2019 ".format(namaacara), ln=1, align="J")
         pdf.cell(200, 10, txt="Lampiran: - ", ln=1, align="J")
         pdf.cell(200, 10, txt="Perihal: Permohonan Izin Pemasangan Baliho", ln=1, align="J")
