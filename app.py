@@ -4,6 +4,10 @@ import os
 import pymysql.cursors
 import json
 from datetime import date
+import telebot
+from fpdf import FPDF
+
+bot = telebot.TeleBot(token='816398857:AAEZGcAQZO0QR1kYqEBV7nZTFWzNv2gD26g')
 
 # initialize the flask app
 app = Flask(__name__)
@@ -159,6 +163,14 @@ def dataUserPengaju(data):
             cursor.execute(sql2, (id_inbox, namausaha, alamatusaha, jenisusaha, notlpnusaha,))
             result = cursor.fetchone()
         connection.commit()
+
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial", size=12)
+        pdf.cell(200, 10, txt="TESTING", ln=1, align="C")
+        pdf.output("test.pdf")
+
+        bot.send_document(cekUserID, open('test.pdf','rb'))
 
         response = {
             'fulfillmentText': "Selamat, data anda berhasil di masukan"

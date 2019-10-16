@@ -1,7 +1,11 @@
 Click==7.0
 Flask==1.1.1
+fpdf==1.7.2
 itsdangerous==1.1.0
 Jinja2==2.10.3
 MarkupSafe==1.1.1
 PyMySQL==0.9.3
+pyTelegramBotAPI==3.6.6
+requests==2.7.0
+six==1.12.0
 Werkzeug==0.16.0
