@@ -171,7 +171,7 @@ def dataUserPengaju(data):
         pdf.cell(200, 10, txt="Kecamatan Ubud, Kabupaten Gianyar, Provinsi Bali", ln=1, align="C")
         pdf.output("form_pendaftaran.pdf")
 
-        bot.send_document(cekUserID, open('test.pdf','rb'))
+        bot.send_document(cekUserID, open('form_pendaftaran.pdf','rb'))
 
         response = {
             'fulfillmentText': "Selamat, data anda berhasil di masukan"
