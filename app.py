@@ -168,7 +168,7 @@ def dataUserPengaju(data):
     try:
         result = ""
         with connection.cursor() as cursor:
-            sql = "INSERT INTO tb_user_pengaju (id_user, nik, nama_user, alamat, no_tlp, tanggal) VALUES (%s, %s, %s, %s, %s)"
+            sql = "INSERT INTO tb_user_pengaju (id_user, nik, nama_user, alamat, no_tlp, tanggal) VALUES (%s, %s, %s, %s, %s, %s)"
             cursor.execute(sql, (cekUserID, nikuser, namauser, alamat, notlpn, date.today().strftime("%Y-%m-%d")))
             id_inbox = cursor.lastrowid
             sql2 = "INSERT INTO tb_user_pengaju_detail (id_user_pengaju, nama_usaha, alamat_usaha, jenis_usaha, no_tlpn_usaha) VALUES (%s, %s, %s, %s, %s)"
