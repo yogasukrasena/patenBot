@@ -33,7 +33,7 @@ def webhook():
         return perdagangan()
 
     elif intent_name == 'surat_pengantar_dagang_detail - notlpnusaha':
-        return dataUserPengaju(data)
+        return dataUserPengaju()
 
 
     return jsonify(request.get_json())
@@ -146,49 +146,12 @@ def perdagangan():
     }
     return response
 
-def dataUserPengaju(data):
-    cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
-    nik = data.get("outputContexts").get("name").get("parameters").get("")
-    idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
-    isiPesan = data.get("originalDetectIntentRequest").get("payload").get("text")
-    id_inbox = ""
+def dataUserPengaju():
 
-    try:
-        result = ""
-        with connection.cursor() as cursor:
-            sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%s, %s, %s, %s)"
-            cursor.execute(sql, (idPesan, isiPesan, cekUserID, date.today().strftime("%Y-%m-%d")))
-            # id_inbox = cursor.lastrowid
-            result = cursor.fetchone()
-        connection.commit()
-
-        response = {
-            'fulfillmentMessages': [
-                {
-                    "card": {
-                        "title": "Menu",
-                        "subtitle": "Halo {}, Silahkan pilih menu di bawah".format(isiPesan),
-                        "buttons": [
-                            {
-                                "text": "Surat izin Usaha Perdagangan",
-                                "postback": "usaha perdagangan"
-                            },
-                            {
-                                "text": "Pengajuan Izin Reklame",
-                                "postback": "izin reklame"
-                            }
-                        ]
-                    }
-                }
-            ]
-        }
-        return response
-
-    except Exception:
-        response = {
-            'fulfillmentText': "Data anda gagal di Daftarkan"
-        }
-        return jsonify(response)
+    response = {
+        'fulfillmentText': "Data anda gagal di Daftarkan"
+    }
+    return jsonify(response)
 
 
 
