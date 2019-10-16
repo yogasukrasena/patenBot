@@ -166,9 +166,10 @@ def dataUserPengaju(data):
 
         pdf = FPDF()
         pdf.add_page()
-        pdf.set_font("Arial", size=12)
-        pdf.cell(200, 10, txt="TESTING", ln=1, align="J")
-        pdf.output("test.pdf")
+        pdf.set_font("Times New Roman", size=12)
+        pdf.cell(200, 10, txt="Pengajuan Surat Izin Usaha Perdagangan", ln=1, align="C")
+        pdf.cell(200, 10, txt="Kecamatan Ubud, Kabupaten Gianyar, Provinsi Bali", ln=1, align="C")
+        pdf.output("form_pendaftaran.pdf")
 
         bot.send_document(cekUserID, open('test.pdf','rb'))
 
