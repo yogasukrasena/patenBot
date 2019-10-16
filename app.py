@@ -192,6 +192,14 @@ def dataUserPengaju(data):
 
         bot.send_document(cekUserID, open('form_pendaftaran.pdf','rb'))
 
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO tb_outbox (id_inbox, response) VALUES (%s, %s)"
+            cursor.execute(sql, (id_inbox, "form_pendaftaran.pdf"))
+            sql = "UPDATE tb_inbox SET tb_inbox.status = '1' WHERE tb_inbox.id = %s"
+            cursor.execute(sql, (id_inbox))
+            result = cursor.fetchone()
+        connection.commit()
+
         response = {
             'fulfillmentText': "Selamat, data anda berhasil di masukan"
         }
@@ -225,6 +233,7 @@ def formReklame(data):
         with connection.cursor() as cursor:
             sql = "INSERT INTO tb_reklame (id_user, nama_pengaju, nama_acara, tanggal_acara, tanggal_pengajuan) VALUES (%s, %s, %s, %s, %s)"
             cursor.execute(sql, (cekUserID, namauser, namaacara, tglacara, date.today().strftime("%Y-%m-%d")))
+            id_inbox = cursor.lastrowid
             result = cursor.fetchone()
         connection.commit()
 
@@ -253,6 +262,14 @@ def formReklame(data):
         pdf.output("form_pendaftaran.pdf")
 
         bot.send_document(cekUserID, open('form_pendaftaran.pdf', 'rb'))
+
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO tb_outbox (id_inbox, response) VALUES (%s, %s)"
+            cursor.execute(sql, (id_inbox, "form_pendaftaran.pdf"))
+            sql = "UPDATE tb_inbox SET tb_inbox.status = '1' WHERE tb_inbox.id = %s"
+            cursor.execute(sql, (id_inbox))
+            result = cursor.fetchone()
+        connection.commit()
 
         response = {
             'fulfillmentText': "Selamat, data anda berhasil di masukan"
