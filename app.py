@@ -35,6 +35,8 @@ def webhook():
     elif intent_name == 'surat_pengantar_dagang_detail - notlpnusaha':
         return dataUserPengaju(data)
 
+    elif intent_name == 'pengajuan_reklame':
+        return reklame()
 
     return jsonify(request.get_json())
 
@@ -109,7 +111,7 @@ def menu(data):
                             },
                             {
                                 "text": "Pengajuan Izin Reklame",
-                                "postback": "izin reklame"
+                                "postback": "pengajuan reklame"
                             }
                         ]
                     }
@@ -139,6 +141,29 @@ def perdagangan():
                         {
                             "text": "Syarat Pengajuan Perdagangan",
                             "postback": "syarat Perdagangan"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+    return response
+
+def reklame():
+    response = {
+        'fulfillmentMessages': [
+            {
+                "card": {
+                    "title": "Izin Reklame",
+                    "subtitle": "Silahkan pilih layanan di Bawah",
+                    "buttons": [
+                        {
+                            "text": "Form Pendaftaran",
+                            "postback": "form perdagangan"
+                        },
+                        {
+                            "text": "Syarat Pemasangan Reklame",
+                            "postback": "syarat reklame"
                         }
                     ]
                 }
