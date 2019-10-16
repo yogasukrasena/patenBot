@@ -149,7 +149,7 @@ def perdagangan():
 def dataUserPengaju():
 
     response = {
-        'fulfillmentText': "Data anda gagal di Daftarkan"
+        'fulfillmentText': "Selamat, data anda berhasil di masukan"
     }
     return jsonify(response)
 
