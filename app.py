@@ -155,6 +155,7 @@ def dataUserPengaju(data):
                                 "53cffdfa-98d0-3832-8930-b0dd520ef777/contexts/surat_pengantar_dagang-nama-followup":
             parameter_index = index
 
+    cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
     namauser = outputContexts[parameter_index]['parameters']['namauser']
     nik = outputContexts[parameter_index]['parameters']['nik']
     alamat = outputContexts[parameter_index]['parameters']['alamat']
@@ -166,11 +167,27 @@ def dataUserPengaju(data):
 
     print("{} {} {} {} {} {} {} {}".format(namauser, nik, alamat, notlpn, namausaha, alamatusaha, jenisusaha, notlpnusaha))
 
+    try:
+        result = ""
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO tb_user_pengaju (id_user, nik, nama_user, alamat, no_tlp, tanggal) VALUES (%s, %s, %s, %s, %s)"
+            cursor.execute(sql, (cekUserID, nik, namauser, alamat, notlpn, date.today().strftime("%Y-%m-%d")))
+            id_inbox = cursor.lastrowid
+            sql2 = "INSERT INTO tb_user_pengaju_detail (id_user_pengaju, nama_usaha, alamat_usaha, jenis_usaha, no_tlpn_usaha) VALUES (%s, %s, %s, %s, %s)"
+            cursor.execute(sql2, (id_inbox, namausaha, alamatusaha, jenisusaha, notlpnusaha,))
+            result = cursor.fetchone()
+        connection.commit()
 
-    response = {
-        'fulfillmentText': "Selamat, data anda berhasil di masukan"
-    }
-    return jsonify(response)
+        response = {
+            'fulfillmentText': "Selamat, data anda berhasil di masukan"
+        }
+        return jsonify(response)
+
+    except Exception:
+        response = {
+            'fulfillmentText': "Data anda gagal di Daftarkan"
+        }
+        return jsonify(response)
 
 
 
