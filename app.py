@@ -138,7 +138,7 @@ def perdagangan():
                         },
                         {
                             "text": "Syarat Pengajuan Perdagangan",
-                            "postback": "Syarat"
+                            "postback": "syarat Perdagangan"
                         }
                     ]
                 }
