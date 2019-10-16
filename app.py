@@ -133,7 +133,7 @@ def perdagangan():
                     "subtitle": "Silahkan pilih layanan di Bawah",
                     "buttons": [
                         {
-                            "text": "Form Perdagangan",
+                            "text": "Form Pendaftaran",
                             "postback": "form perdagangan"
                         },
                         {
