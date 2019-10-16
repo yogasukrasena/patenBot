@@ -84,6 +84,7 @@ def menu(data):
     cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
     idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
     isiPesan = data.get("originalDetectIntentRequest").get("payload").get("text")
+    userNama = data.get("originalDetectIntentRequest").get("payload").get("from").get("username")
     id_inbox = ""
 
     try:
@@ -100,7 +101,7 @@ def menu(data):
                 {
                     "card": {
                         "title": "Menu",
-                        "subtitle": "Halo {}, Silahkan pilih menu di bawah".format(isiPesan),
+                        "subtitle": "Halo {}, Silahkan pilih menu di bawah".format(userNama),
                         "buttons": [
                             {
                                 "text": "Surat izin Usaha Perdagangan",
