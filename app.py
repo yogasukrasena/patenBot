@@ -167,7 +167,7 @@ def dataUserPengaju(data):
         pdf = FPDF()
         pdf.add_page()
         pdf.set_font("Arial", size=12)
-        pdf.cell(200, 10, txt="TESTING", ln=1, align="C")
+        pdf.cell(200, 10, txt="TESTING", ln=1, align="J")
         pdf.output("test.pdf")
 
         bot.send_document(cekUserID, open('test.pdf','rb'))
