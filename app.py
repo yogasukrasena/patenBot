@@ -218,6 +218,30 @@ def formReklame(data):
             result = cursor.fetchone()
         connection.commit()
 
+        pdf = FPDF()
+        pdf.add_page()
+        pdf.set_font("Arial", size=12)
+        pdf.cell(200, 10, txt="Nomor: 156/C/PANPEL-{}/I/2019 "
+                              "Lampiran: - "
+                              "Perihal: Permohonan Izin Pemasangan Baliho".format(namaacara), ln=1, align="J")
+        pdf.cell(200, 10, txt="Kepada : "
+                              "Yth. 	Camat "
+                              "Kecamatan Ubud", ln=1, align="J")
+        pdf.cell(200, 10, txt="di-	"
+                              "Tempat", ln=1, align="J")
+        pdf.cell(200, 10, txt="Dengan hormat, "
+                              "Sehubungan dengan akan diselenggarakannya kegiatan {} oleh {} , "
+                              "maka kami selaku panitia pelaksana mohon izin pemasangan baliho, pada:".format(namaacara, namauser), ln=1, align="J")
+        pdf.cell(200, 10, txt="Tanggal	: {} "
+                              "Nama Acara	: {}".format(tglacara, namaacara), ln=1, align="J")
+        pdf.cell(200, 10, txt="Demikian surat permohonan ini kami sampaikan, besar harapan kami agar Bapak/Ibu bersedia "
+                              "dan berkenan untuk membantu mensukseskan acara tersebut. Atas perhatian dan bantuan "
+                              "Bapak/Ibu kami ucapkan terima kasih. ", ln=1, align="J")
+
+        pdf.output("form_pendaftaran.pdf")
+
+        bot.send_document(cekUserID, open('form_pendaftaran.pdf', 'rb'))
+
         response = {
             'fulfillmentText': "Selamat, data anda berhasil di masukan"
         }
