@@ -91,7 +91,8 @@ def menu(data):
         return response
 
 
-    except Exception:
+    except Exception as error:
+        print(error)
         response = {
             'fulfillmentText': "Data anda gagal di Daftarkan"
         }
