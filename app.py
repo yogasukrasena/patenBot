@@ -26,6 +26,9 @@ def webhook():
     if intent_name == 'webhook-intent':
         return Awal(data)
 
+    elif intent_name == 'menu':
+        return menu(data)
+
     return jsonify(request.get_json())
 
 def Awal(data):
@@ -56,6 +59,49 @@ def Awal(data):
                             {
                                 "text": "Info Akademik",
                                 "postback": "info akademik"
+                            }
+                        ]
+                    }
+                }
+            ]
+        }
+        return response
+
+    except Exception:
+        response = {
+            'fulfillmentText': "Data anda gagal di Daftarkan"
+        }
+        return jsonify(response)
+
+def menu(data):
+    cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
+    idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
+    isiPesan = data.get("originalDetectIntentRequest").get("payload").get("text")
+    id_inbox = ""
+
+    try:
+        result = ""
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%s, %s, %s, %s)"
+            cursor.execute(sql, (idPesan, isiPesan, cekUserID, date.today().strftime("%Y-%m-%d")))
+            # id_inbox = cursor.lastrowid
+            result = cursor.fetchone()
+        connection.commit()
+
+        response = {
+            'fulfillmentMessages': [
+                {
+                    "card": {
+                        "title": "Menu",
+                        "subtitle": "Halo {}, Silahkan pilih menu di bawah".format(result['idPesan']),
+                        "buttons": [
+                            {
+                                "text": "Pengajuan izin Usaha Perdagangan",
+                                "postback": "usaha perdagangan"
+                            },
+                            {
+                                "text": "Pengajuan Izin Reklame",
+                                "postback": "ijin reklame"
                             }
                         ]
                     }
