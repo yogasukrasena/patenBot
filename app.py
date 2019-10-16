@@ -29,8 +29,11 @@ def webhook():
     elif intent_name == 'menu':
         return menu(data)
 
-    elif intent_name == 'surat_pengantar_dagang_detail - notlpnusaha':
+    elif intent_name == 'menu.pengajuan.dagang':
         return perdagangan()
+
+    elif intent_name == 'surat_pengantar_dagang_detail - notlpnusaha':
+        return dataUserPengaju(data)
 
 
     return jsonify(request.get_json())
