@@ -23,10 +23,7 @@ def webhook():
     intent_name = data.get("queryResult").get("intent").get("displayName")
     print(data)
 
-    if intent_name == 'webhook-intent':
-        return Awal(data)
-
-    elif intent_name == 'menu':
+    if intent_name == 'menu':
         return menu(data)
 
     elif intent_name == 'menu.pengajuan.dagang':
@@ -42,48 +39,6 @@ def webhook():
         return formReklame(data)
 
     return jsonify(request.get_json())
-
-def Awal(data):
-    cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
-    idPesan = data.get("originalDetectIntentRequest").get("payload").get("message_id")
-    isiPesan = data.get("originalDetectIntentRequest").get("payload").get("text")
-    id_inbox = ""
-
-    try:
-        result = ""
-        with connection.cursor() as cursor:
-            sql = "INSERT INTO tb_inbox (id_pesan, pesan, userID, tanggal) VALUES (%s, %s, %s, %s)"
-            cursor.execute(sql, (idPesan, isiPesan, cekUserID, date.today().strftime("%Y-%m-%d")))
-            # id_inbox = cursor.lastrowid
-        connection.commit()
-
-        response = {
-            'fulfillmentMessages': [
-                {
-                    "card": {
-                        "title": "Menu",
-                        "subtitle": "Halo {}, Silahkan pilih menu di bawah",
-                        "buttons": [
-                            {
-                                "text": "Cek Profil",
-                                "postback": "cek profil"
-                            },
-                            {
-                                "text": "Info Akademik",
-                                "postback": "info akademik"
-                            }
-                        ]
-                    }
-                }
-            ]
-        }
-        return response
-
-    except Exception:
-        response = {
-            'fulfillmentText': "Data anda gagal di Daftarkan"
-        }
-        return jsonify(response)
 
 def menu(data):
     cekUserID = data.get("originalDetectIntentRequest").get("payload").get("from").get("id")
